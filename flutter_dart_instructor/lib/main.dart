@@ -3,13 +3,10 @@ import 'package:flutter/material.dart';
 import 'models/student.dart';
 
 void main() {
-
   runApp(MaterialApp(home: MyApp()));
-
 }
 
 class MyApp extends StatefulWidget {
-
   @override
   State<MyApp> createState() => _MyAppState();
 }
@@ -17,11 +14,15 @@ class MyApp extends StatefulWidget {
 class _MyAppState extends State<MyApp> {
   String mesaj = "Ogrenci Takip Sistemi";
 
-  String seciliOgrenci="abc";
+  String seciliOgrenci = "abc";
 
   //var not = 65;
-  List<Student> students=[Student("Cihangir","Dagdeviren",100),
-    Student("Malik","Devrilmez", 99),Student("Bartok","Varyemez", 30),Student("Mehmet Ali", "Saman", 45)];
+  List<Student> students = [
+    Student("Cihangir", "Dagdeviren", 100),
+    Student("Malik", "Devrilmez", 99),
+    Student("Bartok", "Varyemez", 30),
+    Student("Mehmet Ali", "Saman", 45)
+  ];
 
   @override
   Widget build(BuildContext context) {
@@ -31,7 +32,6 @@ class _MyAppState extends State<MyApp> {
         title: Text(mesaj),
       ),
       body: buildBody(context),
-
     );
   }
 
@@ -53,8 +53,7 @@ class _MyAppState extends State<MyApp> {
       title: Text("SinavSonucu"),
       content: Text(mesaj),
     );
-    showDialog(
-        context: context, builder: (BuildContext context) => alert);
+    showDialog(context: context, builder: (BuildContext context) => alert);
   }
 
   Widget buildBody(BuildContext context) {
@@ -66,29 +65,85 @@ class _MyAppState extends State<MyApp> {
                 itemBuilder: (BuildContext context, int index) {
                   return ListTile(
                     leading: CircleAvatar(
-                      backgroundImage: NetworkImage("https://i1.sndcdn.com/artworks-000147503915-rk15y4-t500x500.jpg"),
+                      backgroundImage: NetworkImage(
+                          "https://i1.sndcdn.com/artworks-000147503915-rk15y4-t500x500.jpg"),
                     ),
-                    title: Text(students[index].firstName+" "+students[index].lasstName),
-                    subtitle: Text("Sinavdan Aldigi Not : "+students[index].grade.toString()+" ["+students[index].getStatus+"]"),
+                    title: Text(students[index].firstName +
+                        " " +
+                        students[index].lasstName),
+                    subtitle: Text("Sinavdan Aldigi Not : " +
+                        students[index].grade.toString() +
+                        " [" +
+                        students[index].getStatus +
+                        "]"),
                     trailing: buildStatusIcon(students[index].grade),
-                    onTap: (){
+                    onTap: () {
                       setState(() {
-                        seciliOgrenci=students[index].firstName+" "+students[index].lasstName;
+                        seciliOgrenci = students[index].firstName +
+                            " " +
+                            students[index].lasstName;
                         print(seciliOgrenci);
-                      });                      //print(students[index].firstName+" "+students[index].lasstName);
-
+                      }); //print(students[index].firstName+" "+students[index].lasstName);
                     },
                   );
                 })),
-        Text("Secili Ogrenci : "+seciliOgrenci),
-        Center(
-          child: ElevatedButton(
-            child: Text("SonucuGor"),
-            onPressed: () {
-              var mesaj = sinavHesapla(30);
-              mesajGoster(context, mesaj);
-            },
-          ),
+        Text("Secili Ogrenci : " + seciliOgrenci),
+        Row(
+          children: <Widget>[
+            Flexible(
+              fit: FlexFit.tight,
+              flex: 1,
+              child: TextButton(
+                child: Row(
+                  //color verilmiyor
+                  children: <Widget>[
+                    Icon(Icons.add),
+                    SizedBox(width: 1.0),
+                    Text("Yeni Ogrenci"),
+                  ],
+                ),
+                onPressed: () {
+                  var mesaj = sinavHesapla(30);
+                  mesajGoster(context, mesaj);
+                },
+              ),
+            ),
+            Flexible(
+              fit: FlexFit.tight,
+              flex: 1,//ayni raw icindeki elemanlarin total flex payi satiri kac paya boldugunu anlatir/
+              //Flex degeri ise o widgetin kac pay kaplayacagini belirler
+              child: ElevatedButton(
+                child: Row(
+                  children:<Widget>[
+                    Icon(Icons.update),
+                    SizedBox(width: 5.0),
+                    Text("Guncelle"),
+                  ],
+                ),
+                onPressed: () {
+                  var mesaj = sinavHesapla(30);
+                  mesajGoster(context, mesaj);
+                },
+              ),
+            ),
+            Flexible(
+              fit: FlexFit.tight,
+              flex: 1,
+              child: MaterialButton(
+                color: Colors.amberAccent,
+                child: Row(
+                  children: <Widget>[
+                    Icon(Icons.delete),
+                    SizedBox(width: 1.0),Text("Ogrenciyi Sil"),
+                  ],
+                ),
+                onPressed: () {
+                  var mesaj = sinavHesapla(30);
+                  mesajGoster(context, mesaj);
+                },
+              ),
+            )
+          ],
         ),
       ],
     );
