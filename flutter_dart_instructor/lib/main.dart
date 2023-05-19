@@ -1,4 +1,6 @@
 import 'package:flutter/material.dart';
+import 'package:flutter_dart_instructor/screens/student_add.dart';
+import 'package:flutter_dart_instructor/screens/student_edit.dart';
 
 import 'models/student.dart';
 
@@ -14,14 +16,16 @@ class MyApp extends StatefulWidget {
 class _MyAppState extends State<MyApp> {
   String mesaj = "Ogrenci Takip Sistemi";
 
-  String seciliOgrenci = "abc";
+  //Student selectedStudent;
+  Student selectedStudent=Student.withId(0, "", "", 0);
+  //late Student selectedStudent;
 
   //var not = 65;
   List<Student> students = [
-    Student("Cihangir", "Dagdeviren", 100),
-    Student("Malik", "Devrilmez", 99),
-    Student("Bartok", "Varyemez", 30),
-    Student("Mehmet Ali", "Saman", 45)
+    Student.withId(1,"Cihangir", "Dagdeviren", 100),
+    Student.withId(2,"Malik", "Devrilmez", 99),
+    Student.withId(3,"Bartok", "Varyemez", 30),
+    Student.withId(4,"Mehmet Ali", "Saman", 45)
   ];
 
   @override
@@ -35,22 +39,9 @@ class _MyAppState extends State<MyApp> {
     );
   }
 
-  String sinavHesapla(int puan) {
-    String mesaj = "";
-    if (puan >= 50) {
-      mesaj = "Ogrenci Gecti";
-    } else if (puan >= 40) {
-      mesaj = "Butunleme Vakti";
-    } else {
-      mesaj = "Kaldi";
-    }
-
-    return mesaj;
-  }
-
   void mesajGoster(BuildContext context, String mesaj) {
     var alert = AlertDialog(
-      title: Text("SinavSonucu"),
+      title: Text("Islem Sonucu"),
       content: Text(mesaj),
     );
     showDialog(context: context, builder: (BuildContext context) => alert);
@@ -68,26 +59,18 @@ class _MyAppState extends State<MyApp> {
                       backgroundImage: NetworkImage(
                           "https://i1.sndcdn.com/artworks-000147503915-rk15y4-t500x500.jpg"),
                     ),
-                    title: Text(students[index].firstName +
-                        " " +
-                        students[index].lasstName),
-                    subtitle: Text("Sinavdan Aldigi Not : " +
-                        students[index].grade.toString() +
-                        " [" +
-                        students[index].getStatus +
-                        "]"),
+                    title: Text("${students[index].firstName} ${students[index].lasstName}"),
+                    subtitle: Text("Sinavdan Aldigi Not : ${students[index].grade} [${students[index].getStatus}]"),
                     trailing: buildStatusIcon(students[index].grade),
                     onTap: () {
                       setState(() {
-                        seciliOgrenci = students[index].firstName +
-                            " " +
-                            students[index].lasstName;
-                        print(seciliOgrenci);
+                        selectedStudent=students[index];
+                        print(selectedStudent.firstName);
                       }); //print(students[index].firstName+" "+students[index].lasstName);
                     },
                   );
                 })),
-        Text("Secili Ogrenci : " + seciliOgrenci),
+        Text("Secili Ogrenci : "+ selectedStudent.firstName),
         Row(
           children: <Widget>[
             Flexible(
@@ -103,8 +86,7 @@ class _MyAppState extends State<MyApp> {
                   ],
                 ),
                 onPressed: () {
-                  var mesaj = sinavHesapla(30);
-                  mesajGoster(context, mesaj);
+                  Navigator.push(context, MaterialPageRoute(builder: (context)=>StudentAdd(students)));
                 },
               ),
             ),
@@ -120,9 +102,7 @@ class _MyAppState extends State<MyApp> {
                     Text("Guncelle"),
                   ],
                 ),
-                onPressed: () {
-                  var mesaj = sinavHesapla(30);
-                  mesajGoster(context, mesaj);
+                onPressed: () { Navigator.push(context, MaterialPageRoute(builder: (context)=>StudentEdit(selectedStudent)));
                 },
               ),
             ),
@@ -131,14 +111,18 @@ class _MyAppState extends State<MyApp> {
               flex: 1,
               child: MaterialButton(
                 color: Colors.amberAccent,
-                child: Row(
+                child:  Row(
                   children: <Widget>[
                     Icon(Icons.delete),
                     SizedBox(width: 1.0),Text("Ogrenciyi Sil"),
                   ],
                 ),
                 onPressed: () {
-                  var mesaj = sinavHesapla(30);
+                  setState(() {
+                    students.remove(selectedStudent);
+                  });
+
+                 var mesaj = "Silindi";
                   mesajGoster(context, mesaj);
                 },
               ),
@@ -167,3 +151,17 @@ class _MyAppState extends State<MyApp> {
 
               ],
             ),*/
+
+/*
+  String sinavHesapla(int puan) {
+    String mesaj = "";
+    if (puan >= 50) {
+      mesaj = "Ogrenci Gecti";
+    } else if (puan >= 40) {
+      mesaj = "Butunleme Vakti";
+    } else {
+      mesaj = "Kaldi";
+    }
+
+    return mesaj;
+  }*/

@@ -1,24 +1,37 @@
-class Student{
+class Student {
+  late int id;
   late String firstName;
   late String lasstName;
   late int grade;
   late String _status;
 
-  Student(String firstName,String lastName,int grade){
-  this.firstName=firstName;
-  this.lasstName=lastName;
-  this.grade=grade;
+
+  Student.withoutInfo(){
+
   }
 
-  String get getFirsName{
-    return "Ogr - "+this.firstName;
+  Student.withId(int id, String firstName, String lastName, int grade) {
+    this.id = id;
+    this.firstName = firstName;
+    this.lasstName = lastName;
+    this.grade = grade;
   }
 
-  void set setFirstName(String value){
-    this.firstName=value;
+  Student(String firstName, String lastName, int grade) {
+    this.firstName = firstName;
+    this.lasstName = lastName;
+    this.grade = grade;
   }
 
-  String get getStatus{
+  String get getFirsName {
+    return "Ogr - " + this.firstName;
+  }
+
+  void set setFirstName(String value) {
+    this.firstName = value;
+  }
+
+  String get getStatus {
     String message = "";
     if (this.grade >= 50) {
       message = "Ogrenci Gecti";
@@ -29,8 +42,6 @@ class Student{
     }
     return message;
   }
-
-
 }
 
 /*
@@ -44,4 +55,3 @@ class Student{
     "Kurt"
   ];
 */
-
