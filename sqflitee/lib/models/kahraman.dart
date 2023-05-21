@@ -5,7 +5,8 @@ class Kahraman{
   late String pozisyon;
   late double gucSeviyesi;
 
-  Kahraman(this.id,this.isim,this.pozisyon, this.gucSeviyesi);
+  Kahraman(this.isim,this.pozisyon, this.gucSeviyesi);
 
+  Kahraman.withId(this.id,this.isim,this.pozisyon, this.gucSeviyesi);
 
 }
